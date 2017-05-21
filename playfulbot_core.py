@@ -2,7 +2,7 @@
 #
 # 2015 Alex Silva <alexsilvaf28 at gmail.com>
 
-import urllib, mechanize
+import urllib.request, urllib.parse, urllib.error, mechanize
 from bs4 import BeautifulSoup
 from PyQt4 import QtCore, QtGui
 
@@ -43,8 +43,8 @@ class PlayfulbotCore(QtCore.QObject):
 			promo = self.parser_mainpage.findAll("a", {"href": "http://playfulbet.com/promociones"})
 			self.connected = len(promo) > 1
 			self.signalLogin.emit(self.connected)
-		except mechanize.URLError, e:
-			print e
+		except mechanize.URLError as e:
+			print(e)
 			self.signalLogin.emit(False)
 
 	def userData(self):
@@ -75,7 +75,7 @@ class PlayfulbotCore(QtCore.QObject):
 			user_data['lost'] = bets_header[2].contents[0].string
 
 			self.signalUserData.emit(user_data)
-		except mechanize.URLError, e:
+		except mechanize.URLError as e:
 			self.userData()
 
 	def autoBet(self):
